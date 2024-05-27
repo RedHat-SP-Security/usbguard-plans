@@ -1,0 +1,17 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/usbguard/-/tree/c10s
+
+summary: rpmverify test
+
+execute:
+    how: tmt
+
+discover:
+
+  - name: test
+    how: shell
+    tests:
+      - name: rpmverify
+        test: 'rpmverify $(rpm -qa | grep usbguard)'
+        duration: 2m
+
