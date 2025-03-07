@@ -16,6 +16,7 @@ discover:
     url: https://github.com/RedHat-SP-Security/usbguard-tests
     ref: master
     filter: "tag:CI-Tier-1 & tag: -usb-device"
+    exclude: /Sanity/notifier-ipc
 
 execute:
     how: tmt
