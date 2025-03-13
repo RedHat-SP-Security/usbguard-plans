@@ -12,6 +12,6 @@ discover:
     how: shell
     tests:
       - name: rpmverify
-        test: 'rpmverify $(rpm -qa | grep usbguard)'
+        test: 'dnf list installed usbguard'
         duration: 2m
 
