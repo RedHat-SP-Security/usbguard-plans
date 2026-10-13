@@ -1,0 +1,39 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/rpms/usbguard
+
+summary: package update scenario
+
+execute:
+    how: tmt
+
+prepare:
+  - how: shell
+    order: 90
+    script:
+      # remove installed (tested) usbguard and any leftovers
+      - dnf -y remove usbguard usbguard-dbus usbguard-notifier usbguard-selinux usbguard-tools
+      # install older usbguard
+      - dnf -y install usbguard usbguard-dbus usbguard-notifier usbguard-selinux usbguard-tools --disablerepo test-artifacts
+
+discover:
+
+  - name: Pre_update_sanity
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/usbguard-tests
+    ref: master
+    filter: "tag:CI-Tier-1 & tag: -usb-device"
+    exclude: /Sanity/notifier-ipc
+
+  - name: Update_usbguard_packages
+    how: shell
+    tests:
+      - name: usbguard_update
+        test: dnf -y update usbguard usbguard-dbus usbguard-notifier usbguard-selinux usbguard-tools
+        duration: 2m
+
+  - name: Post_update_sanity
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/usbguard-tests
+    ref: master
+    filter: "tag:CI-Tier-1 & tag: -usb-device"
+    exclude: /Sanity/notifier-ipc
