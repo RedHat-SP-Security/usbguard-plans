@@ -21,8 +21,11 @@ discover:
     how: fmf
     url: https://github.com/RedHat-SP-Security/usbguard-tests
     ref: master
-    filter: "tag:CI-Tier-1 & tag: -usb-device"
-    exclude: /Sanity/notifier-ipc
+    test:
+      - /Sanity/IPCACL/basic
+    adjust-tests:
+      - environment+:
+          IN_PLACE_UPGRADE: "old"
 
   - name: Update_usbguard_packages
     how: shell
@@ -35,5 +38,8 @@ discover:
     how: fmf
     url: https://github.com/RedHat-SP-Security/usbguard-tests
     ref: master
-    filter: "tag:CI-Tier-1 & tag: -usb-device"
-    exclude: /Sanity/notifier-ipc
+    test:
+      - /Sanity/IPCACL/basic
+    adjust-tests:
+      - environment+:
+          IN_PLACE_UPGRADE: "new"
